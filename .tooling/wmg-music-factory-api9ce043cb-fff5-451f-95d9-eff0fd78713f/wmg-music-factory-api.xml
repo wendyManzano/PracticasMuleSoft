@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<configuration doc:name="Configuration" doc:id="b3a50060-5b4b-40c7-bd6a-98ebbea5be7d" defaultErrorHandler-ref="global-error-handler"/>
+	<global-property doc:name="Global Property" doc:id="0b471552-08e5-453e-afe5-0c0585b71505" name="env" value="local" />
+	<configuration-properties doc:name="Configuration properties" doc:id="d6dba189-9888-4a77-964f-d13cddd00d01" file="${env}.properties" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="f4cbb2ed-3de9-46aa-a44a-48cd217b4d89" file="${env}.properties" key="${securekey}">
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<error-handler name="global-error-handler" doc:id="93701698-dd2d-4cee-ad9a-cf67b99814ef" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0e80803f-7be1-46f8-8018-e7c6a4142f9a" >
+			<logger level="INFO" doc:name="Logger" doc:id="7f5bdcf2-769b-45f9-8db0-d747677ffd54" message="#['' ++ write(payload,'application/json')]"/>
+		</on-error-propagate>
+	</error-handler>
+</mule>
